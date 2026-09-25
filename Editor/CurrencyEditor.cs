@@ -89,7 +89,7 @@ namespace fefek5.Currency.Editor
 
             var header = new Label("Play Mode") { style = { unityFontStyleAndWeight = FontStyle.Bold } };
             var balance = new Label();
-            var amount = new LongField("Amount") { value = 100 };
+            var amount = new IntegerField("Amount") { value = 100 };
             var source = new ObjectField("Source") { objectType = typeof(CurrencySource) };
 
             var buttons = new VisualElement { style = { flexDirection = FlexDirection.Row, flexWrap = Wrap.Wrap } };
@@ -120,7 +120,7 @@ namespace fefek5.Currency.Editor
             return section;
         }
 
-        private void Spend(long amount)
+        private void Spend(int amount)
         {
             if (!Currency.TrySpend(amount))
                 Debug.LogWarning($"{Currency.name}: cannot spend {amount}, the balance is {Currency.Value}.", Currency);

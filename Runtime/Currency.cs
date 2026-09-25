@@ -22,12 +22,12 @@ namespace fefek5.Currency.Runtime
 
         [field: SerializeField] public Sprite Icon { get; private set; }
 
-        [field: SerializeField, Min(0)] public long StartingAmount { get; private set; }
+        [field: SerializeField, Min(0)] public int StartingAmount { get; private set; }
 
         [field: SerializeField, Min(0), Tooltip("0 = no limit")]
-        public long MaxAmount { get; private set; }
+        public int MaxAmount { get; private set; }
 
-        [SerializeField] private SaveVar<long> _value = new("Currencies.json", new SaveKey("CURRENCY_NAME"));
+        [SerializeField] private SaveVar<int> _value = new("Currencies.json", new SaveKey("CURRENCY_NAME"));
 
         [field: SerializeReference, SelectType]
         public ICurrencyFormatter Formatter { get; private set; } = new AbbreviatedFormatter();
@@ -39,7 +39,7 @@ namespace fefek5.Currency.Runtime
 
         #region Properties
 
-        public long Value
+        public int Value
         {
             get
             {
@@ -58,36 +58,36 @@ namespace fefek5.Currency.Runtime
 
         internal string SavePath => _value.Path;
 
-        private long Limit => MaxAmount > 0 ? MaxAmount : long.MaxValue;
+        private int Limit => MaxAmount > 0 ? MaxAmount : int.MaxValue;
 
         #endregion
 
         #region Events
 
         /// <summary>New balance after Earn, TrySpend or Set.</summary>
-        public event Action<long> OnChanged;
+        public event Action<int> OnChanged;
 
         /// <summary>Amount actually added (after modules and MaxAmount) and where it came from.</summary>
-        public event Action<long, CurrencySource> OnEarn;
+        public event Action<int, CurrencySource> OnEarn;
 
         /// <summary>Amount taken and what it was spent on (can be null).</summary>
-        public event Action<long, SpendReason> OnSpend;
+        public event Action<int, SpendReason> OnSpend;
 
         /// <summary>New balance after SetWithoutNotify, for listeners that only display it (UI).</summary>
-        public event Action<long> OnChangedWithoutNotify;
+        public event Action<int> OnChangedWithoutNotify;
 
         #endregion
 
         #region Runtime State
 
-        [NonSerialized] private ProtectedLong _cached;
+        [NonSerialized] private int _cached;
         [NonSerialized] private bool _loaded;
 
         #endregion
 
-        public bool CanAfford(long amount) => amount <= Value;
+        public bool CanAfford(int amount) => amount <= Value;
 
-        public void Earn(long amount, CurrencySource source)
+        public void Earn(int amount, CurrencySource source)
         {
             if (amount <= 0) return;
 
@@ -129,7 +129,7 @@ namespace fefek5.Currency.Runtime
 
         /// <summary>Takes the amount only if the balance covers all of it.</summary>
         /// <returns>True when the amount was taken (always for 0).</returns>
-        public bool TrySpend(long amount, SpendReason reason = null)
+        public bool TrySpend(int amount, SpendReason reason = null)
         {
             if (amount < 0) return false;
             if (amount == 0) return true;
@@ -147,7 +147,7 @@ namespace fefek5.Currency.Runtime
         }
 
         /// <summary>Overwrites the balance. Raises OnChanged, but neither OnEarn nor OnSpend.</summary>
-        public void Set(long value)
+        public void Set(int value)
         {
             Apply(Math.Clamp(value, 0, Limit));
 
@@ -155,7 +155,7 @@ namespace fefek5.Currency.Runtime
         }
 
         /// <summary>Overwrites the balance (loading, migrating a save). Raises only OnChangedWithoutNotify.</summary>
-        public void SetWithoutNotify(long value)
+        public void SetWithoutNotify(int value)
         {
             Apply(Math.Clamp(value, 0, Limit));
 
@@ -199,7 +199,7 @@ namespace fefek5.Currency.Runtime
 
         // Only the in-memory side; disk is written by Save or the auto saver.
         // SaveVar.SetValue would write the whole file on every change.
-        private void Apply(long value)
+        private void Apply(int value)
         {
             EnsureLoaded();
 
@@ -209,7 +209,7 @@ namespace fefek5.Currency.Runtime
 
         private void RaiseChanged()
         {
-            var value = (long)_cached;
+            var value = _cached;
 
             ForEachModule(module => module.OnChanged(this, value));
             OnChanged?.Invoke(value);
@@ -255,7 +255,7 @@ namespace fefek5.Currency.Runtime
 
         /// <summary>Replaces the save file and key. Used by the editor and tests.</summary>
         internal void SetSave(string relativePath, SaveKey saveKey) =>
-            _value = new SaveVar<long>(relativePath, saveKey);
+            _value = new SaveVar<int>(relativePath, saveKey);
 
         #endregion
 

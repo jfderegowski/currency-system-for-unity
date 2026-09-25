@@ -11,25 +11,24 @@ namespace fefek5.Currency.Runtime
     [Serializable]
     public class AbbreviatedFormatter : ICurrencyFormatter
     {
-        // long.MaxValue ≈ 9.2 Qi
-        private static readonly string[] Suffixes = { "", "K", "M", "B", "T", "Qa", "Qi" };
+        // int.MaxValue ≈ 2.1B
+        private static readonly string[] Suffixes = { "", "K", "M", "B" };
 
         [SerializeField, Range(0, 3)] private int decimals = 1;
 
         [SerializeField, Min(0), Tooltip("Smaller values are shown in full")]
-        private long abbreviateFrom = 10_000;
+        private int abbreviateFrom = 10_000;
 
         public AbbreviatedFormatter() { }
 
-        public AbbreviatedFormatter(int decimals, long abbreviateFrom)
+        public AbbreviatedFormatter(int decimals, int abbreviateFrom)
         {
             this.decimals = decimals;
             this.abbreviateFrom = abbreviateFrom;
         }
 
-        public string Format(long value)
+        public string Format(int value)
         {
-            // decimal holds every long, including the magnitude of long.MinValue
             var magnitude = Math.Abs((decimal)value);
 
             if (magnitude < abbreviateFrom || magnitude < 1000)

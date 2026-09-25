@@ -41,7 +41,7 @@ namespace fefek5.Currency.Tests
 
         [TestCase(0)]
         [TestCase(-5)]
-        public void EarnNotPositiveDoesNothing(long amount)
+        public void EarnNotPositiveDoesNothing(int amount)
         {
             var currency = _currencies.Create(startingAmount: 10);
             var raised = false;
@@ -126,7 +126,7 @@ namespace fefek5.Currency.Tests
         public void MaxAmountClampsAndOnEarnGetsTheAddedAmount()
         {
             var currency = _currencies.Create(startingAmount: 90, maxAmount: 100);
-            long earned = 0;
+            int earned = 0;
 
             currency.OnEarn += (amount, _) => earned = amount;
 
@@ -137,17 +137,17 @@ namespace fefek5.Currency.Tests
         }
 
         [Test]
-        public void EarnAtLongMaxValueDoesNotOverflow()
+        public void EarnAtIntMaxValueDoesNotOverflow()
         {
             var currency = _currencies.Create();
-            long earned = 0;
+            int earned = 0;
 
             currency.OnEarn += (amount, _) => earned = amount;
 
-            currency.Set(long.MaxValue - 5);
+            currency.Set(int.MaxValue - 5);
             currency.Earn(100, _source);
 
-            Assert.AreEqual(long.MaxValue, currency.Value);
+            Assert.AreEqual(int.MaxValue, currency.Value);
             Assert.AreEqual(5, earned);
         }
 
@@ -221,10 +221,10 @@ namespace fefek5.Currency.Tests
         {
             var currency = _currencies.Create();
             Currency earnedCurrency = null;
-            long spent = 0;
+            int spent = 0;
 
-            void OnAnyEarn(Currency c, long amount, CurrencySource source) => earnedCurrency = c;
-            void OnAnySpend(Currency c, long amount, SpendReason reason) => spent = amount;
+            void OnAnyEarn(Currency c, int amount, CurrencySource source) => earnedCurrency = c;
+            void OnAnySpend(Currency c, int amount, SpendReason reason) => spent = amount;
 
             Wallet.OnAnyEarn += OnAnyEarn;
             Wallet.OnAnySpend += OnAnySpend;
@@ -255,16 +255,16 @@ namespace fefek5.Currency.Tests
         [Serializable]
         private class DoubleModule : CurrencyModule
         {
-            public override long ModifyEarn(Currency currency, long amount, CurrencySource source) => amount * 2;
+            public override int ModifyEarn(Currency currency, int amount, CurrencySource source) => amount * 2;
         }
 
         [Serializable]
         private class ThrowingModule : CurrencyModule
         {
-            public override long ModifyEarn(Currency currency, long amount, CurrencySource source) =>
+            public override int ModifyEarn(Currency currency, int amount, CurrencySource source) =>
                 throw new InvalidOperationException(nameof(ThrowingModule));
 
-            public override void OnEarn(Currency currency, long amount, CurrencySource source) =>
+            public override void OnEarn(Currency currency, int amount, CurrencySource source) =>
                 throw new InvalidOperationException(nameof(ThrowingModule));
         }
 
@@ -275,10 +275,10 @@ namespace fefek5.Currency.Tests
 
             public RecordingModule(List<string> calls) => _calls = calls;
 
-            public override void OnEarn(Currency currency, long amount, CurrencySource source) =>
+            public override void OnEarn(Currency currency, int amount, CurrencySource source) =>
                 _calls.Add($"module earn {amount}");
 
-            public override void OnChanged(Currency currency, long value) => _calls.Add($"module changed {value}");
+            public override void OnChanged(Currency currency, int value) => _calls.Add($"module changed {value}");
         }
     }
 }

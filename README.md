@@ -64,7 +64,7 @@ Wallet.OnAnyEarn += (currency, amount, source) => Analytics.Log(currency.name, a
 
 ### Saving
 
-Balances are `long` values in a `SaveVar<long>` (`Currencies.json` by default). A change stays in memory until it is
+Balances are `int` values in a `SaveVar<int>` (`Currencies.json` by default). A change stays in memory until it is
 saved, because currencies can change several times per second:
 
 - `CurrencyAutoSaver` saves every `AutoSaveInterval` seconds, when the app is paused or loses focus, and on quit.
@@ -88,7 +88,7 @@ Derive from `CurrencyModule` and add it to a currency's **Modules** list to reac
 [Serializable]
 public class DoubleWeekendModule : CurrencyModule
 {
-    public override long ModifyEarn(Currency currency, long amount, CurrencySource source) =>
+    public override int ModifyEarn(Currency currency, int amount, CurrencySource source) =>
         DateTime.Now.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday ? amount * 2 : amount;
 }
 ```
@@ -102,6 +102,6 @@ An exception in a module is logged and skipped, so it never blocks earning.
 
 ## Samples
 
-- **Stat Tracker** - a module that counts earned and spent currency into `com.fefek5.stats` `IntStat`s,
-  in batches and with a divisor for int32 Steam stats. Needs `com.fefek5.stats`.
+- **Stat Tracker** - a module that counts earned and spent currency (in total, per source and per spend reason) into `com.fefek5.stats` `IntStat`s,
+  pushed in batches. Needs `com.fefek5.stats`.
 - **Basic Shop** - a uGUI button that buys something for a `Price`.

@@ -17,7 +17,7 @@ namespace fefek5.Currency.Runtime
 
         public PlainFormatter(string separator) => this.separator = separator;
 
-        public string Format(long value) => string.IsNullOrEmpty(separator)
+        public string Format(int value) => string.IsNullOrEmpty(separator)
             ? value.ToString(CultureInfo.InvariantCulture)
             : value.ToString("#,0", CultureInfo.InvariantCulture).Replace(",", separator);
     }

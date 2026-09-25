@@ -17,14 +17,14 @@ namespace fefek5.Currency.Runtime
         public virtual void Dispose() { }
 
         /// <summary>Changes the amount before it is added (multipliers, bonuses). Modules run in list order.</summary>
-        public virtual long ModifyEarn(Currency currency, long amount, CurrencySource source) => amount;
+        public virtual int ModifyEarn(Currency currency, int amount, CurrencySource source) => amount;
 
         /// <summary>Amount actually added, after modifiers and the MaxAmount clamp.</summary>
-        public virtual void OnEarn(Currency currency, long amount, CurrencySource source) { }
+        public virtual void OnEarn(Currency currency, int amount, CurrencySource source) { }
 
-        public virtual void OnSpend(Currency currency, long amount, SpendReason reason) { }
+        public virtual void OnSpend(Currency currency, int amount, SpendReason reason) { }
 
         /// <summary>New balance after Earn, TrySpend or Set. Not called for SetWithoutNotify.</summary>
-        public virtual void OnChanged(Currency currency, long value) { }
+        public virtual void OnChanged(Currency currency, int value) { }
     }
 }

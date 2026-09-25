@@ -16,9 +16,9 @@ namespace fefek5.Currency.Tests
         public void TearDown() => _currencies.Dispose();
 
         [Test]
-        public void SavesValueAboveIntMax()
+        public void SavedValueIsWrittenToFile()
         {
-            const long value = 5_000_000_000L;
+            const int value = 1_500_000_000;
             var currency = _currencies.Create();
 
             currency.Set(value);
@@ -27,7 +27,7 @@ namespace fefek5.Currency.Tests
             var saved = new SaveData();
             saved.Load(currency.SavePath);
 
-            Assert.AreEqual(value, saved.GetKey(currency.SaveKey, 0L));
+            Assert.AreEqual(value, saved.GetKey(currency.SaveKey, 0));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace fefek5.Currency.Tests
         }
 
         [Test]
-        public void IntSavedValueIsReadAsLong()
+        public void ValueIsReadFromFile()
         {
             var currency = _currencies.Create(startingAmount: 1);
 

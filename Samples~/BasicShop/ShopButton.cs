@@ -54,6 +54,6 @@ namespace fefek5.Currency.Samples
 
         private void Refresh() => _button.interactable = price.CanAfford();
 
-        private void HandleChanged(long _) => Refresh();
+        private void HandleChanged(int _) => Refresh();
     }
 }

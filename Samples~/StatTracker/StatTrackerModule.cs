@@ -21,21 +21,30 @@ namespace fefek5.Currency.Samples
             public CurrencySource Source;
             public IntStat Stat;
 
-            [NonSerialized] internal long Pending;
+            [NonSerialized] internal int Pending;
+        }
+
+        [Serializable]
+        public class ReasonStat
+        {
+            public SpendReason Reason;
+            public IntStat Stat;
+
+            [NonSerialized] internal int Pending;
         }
 
         [SerializeField] private IntStat earnedTotal;
         [SerializeField] private IntStat spentTotal;
         [SerializeField] private List<SourceStat> earnedBySource = new();
 
-        [SerializeField, Min(1), Tooltip("1000 counts the stat in thousands. Steam INT stats are int32 (~2.1 billion)")]
-        private long divisor = 1;
+        [SerializeField, Tooltip("Spending without a reason only counts into spentTotal")]
+        private List<ReasonStat> spentByReason = new();
 
         [SerializeField, Min(0), Tooltip("Seconds between pushes")]
         private float pushInterval = 30f;
 
-        [NonSerialized] private long _earnedPending;
-        [NonSerialized] private long _spentPending;
+        [NonSerialized] private int _earnedPending;
+        [NonSerialized] private int _spentPending;
         [NonSerialized] private float _nextPushTime;
 
         public override void Initialize(Currency currency)
@@ -52,9 +61,12 @@ namespace fefek5.Currency.Samples
 
             foreach (var sourceStat in earnedBySource)
                 sourceStat.Pending = 0;
+
+            foreach (var reasonStat in spentByReason)
+                reasonStat.Pending = 0;
         }
 
-        public override void OnEarn(Currency currency, long amount, CurrencySource source)
+        public override void OnEarn(Currency currency, int amount, CurrencySource source)
         {
             _earnedPending += amount;
 
@@ -65,9 +77,14 @@ namespace fefek5.Currency.Samples
             PushIfDue();
         }
 
-        public override void OnSpend(Currency currency, long amount, SpendReason reason)
+        public override void OnSpend(Currency currency, int amount, SpendReason reason)
         {
             _spentPending += amount;
+
+            if (reason)
+                foreach (var reasonStat in spentByReason)
+                    if (reasonStat.Reason == reason)
+                        reasonStat.Pending += amount;
 
             PushIfDue();
         }
@@ -88,19 +105,17 @@ namespace fefek5.Currency.Samples
 
             foreach (var sourceStat in earnedBySource)
                 Add(sourceStat.Stat, ref sourceStat.Pending);
+
+            foreach (var reasonStat in spentByReason)
+                Add(reasonStat.Stat, ref reasonStat.Pending);
         }
 
-        // Moves whole divisor units into the stat; the remainder waits for the next push
-        private void Add(IntStat stat, ref long pending)
+        private static void Add(IntStat stat, ref int pending)
         {
-            if (!stat) return;
+            if (!stat || pending <= 0) return;
 
-            var units = pending / Math.Max(1, divisor);
-
-            if (units <= 0) return;
-
-            pending -= units * Math.Max(1, divisor);
-            stat.Value = (int)Math.Min(int.MaxValue, stat.Value + units);
+            stat.Value = pending > int.MaxValue - stat.Value ? int.MaxValue : stat.Value + pending;
+            pending = 0;
 
             _ = stat.PushAsync();
         }

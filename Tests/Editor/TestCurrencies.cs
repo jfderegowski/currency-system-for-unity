@@ -17,15 +17,15 @@ namespace fefek5.Currency.Tests
 
         private readonly List<Object> _objects = new();
 
-        public Currency Create(long startingAmount = 0, long maxAmount = 0)
+        public Currency Create(int startingAmount = 0, int maxAmount = 0)
         {
             var currency = ScriptableObject.CreateInstance<Currency>();
             currency.name = "TestCurrency";
             currency.SetSave($"CurrencyTests_{Guid.NewGuid():N}.json", new SaveKey(Key));
 
             var serializedObject = new SerializedObject(currency);
-            serializedObject.FindProperty("<StartingAmount>k__BackingField").longValue = startingAmount;
-            serializedObject.FindProperty("<MaxAmount>k__BackingField").longValue = maxAmount;
+            serializedObject.FindProperty("<StartingAmount>k__BackingField").intValue = startingAmount;
+            serializedObject.FindProperty("<MaxAmount>k__BackingField").intValue = maxAmount;
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             _objects.Add(currency);

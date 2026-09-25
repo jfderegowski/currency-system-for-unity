@@ -71,6 +71,6 @@ namespace fefek5.Currency.Runtime
             currency.OnChangedWithoutNotify -= HandleChanged;
         }
 
-        private void HandleChanged(long _) => Refresh();
+        private void HandleChanged(int _) => Refresh();
     }
 }

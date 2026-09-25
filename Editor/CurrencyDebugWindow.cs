@@ -17,7 +17,7 @@ namespace fefek5.Currency.Editor
         private HelpBox _playModeInfo;
         private VisualElement _content;
         private ScrollView _list;
-        private LongField _step;
+        private IntegerField _step;
 
         [MenuItem("Window/Currencies")]
         private static void Open() => GetWindow<CurrencyDebugWindow>("Currencies");
@@ -28,7 +28,7 @@ namespace fefek5.Currency.Editor
             _content = new VisualElement { style = { flexGrow = 1 } };
 
             var toolbar = new Toolbar();
-            _step = new LongField("Step") { value = 100, style = { minWidth = 200 } };
+            _step = new IntegerField("Step") { value = 100, style = { minWidth = 200 } };
             toolbar.Add(_step);
             toolbar.Add(new ToolbarButton(Wallet.SaveAll) { text = "Save All" });
 

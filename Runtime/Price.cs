@@ -8,15 +8,15 @@ namespace fefek5.Currency.Runtime
     public struct CurrencyAmount
     {
         public Currency Currency;
-        public long Amount;
+        public int Amount;
 
-        public CurrencyAmount(Currency currency, long amount)
+        public CurrencyAmount(Currency currency, int amount)
         {
             Currency = currency;
             Amount = amount;
         }
 
-        public void Deconstruct(out Currency currency, out long amount)
+        public void Deconstruct(out Currency currency, out int amount)
         {
             currency = Currency;
             amount = Amount;
@@ -31,7 +31,7 @@ namespace fefek5.Currency.Runtime
 
         public Price() { }
 
-        public Price(Currency currency, long amount) => Amounts.Add(new CurrencyAmount(currency, amount));
+        public Price(Currency currency, int amount) => Amounts.Add(new CurrencyAmount(currency, amount));
 
         public Price(params CurrencyAmount[] amounts) => Amounts.AddRange(amounts);
 

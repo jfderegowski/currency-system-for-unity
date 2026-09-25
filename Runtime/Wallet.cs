@@ -15,10 +15,10 @@ namespace fefek5.Currency.Runtime
             : Array.Empty<Currency>();
 
         /// <summary>Raised after Currency.OnEarn of any currency.</summary>
-        public static event Action<Currency, long, CurrencySource> OnAnyEarn;
+        public static event Action<Currency, int, CurrencySource> OnAnyEarn;
 
         /// <summary>Raised after Currency.OnSpend of any currency.</summary>
-        public static event Action<Currency, long, SpendReason> OnAnySpend;
+        public static event Action<Currency, int, SpendReason> OnAnySpend;
 
         // Every currency that loaded its balance, listed in the database or not, and their save files.
         // Files are kept apart so a currency that got unloaded still has its changes saved.
@@ -41,9 +41,9 @@ namespace fefek5.Currency.Runtime
         }
 
         // Sums the price per currency, so the same currency listed twice is checked against its total
-        private static bool TryGetTotals(Price price, out Dictionary<Currency, long> totals)
+        private static bool TryGetTotals(Price price, out Dictionary<Currency, int> totals)
         {
-            totals = new Dictionary<Currency, long>();
+            totals = new Dictionary<Currency, int>();
 
             if (price == null) return false;
 
@@ -53,7 +53,7 @@ namespace fefek5.Currency.Runtime
                 if (!currency) return false;
 
                 totals.TryGetValue(currency, out var total);
-                totals[currency] = total > long.MaxValue - amount ? long.MaxValue : total + amount;
+                totals[currency] = total > int.MaxValue - amount ? int.MaxValue : total + amount;
             }
 
             foreach (var (currency, total) in totals)
@@ -101,10 +101,10 @@ namespace fefek5.Currency.Runtime
             SavePaths.Add(currency.SavePath);
         }
 
-        internal static void RaiseEarn(Currency currency, long amount, CurrencySource source) =>
+        internal static void RaiseEarn(Currency currency, int amount, CurrencySource source) =>
             OnAnyEarn?.Invoke(currency, amount, source);
 
-        internal static void RaiseSpend(Currency currency, long amount, SpendReason reason) =>
+        internal static void RaiseSpend(Currency currency, int amount, SpendReason reason) =>
             OnAnySpend?.Invoke(currency, amount, reason);
 
         // Assets and statics outlive Play Mode in the editor when domain reload is off

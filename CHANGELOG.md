@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-25
+
+### Added
+
+- Stat Tracker sample: `spentByReason` counts spending per `SpendReason`. Spending without a reason only
+  counts into `spentTotal`.
+
+### Changed
+
+- Balances and amounts are `int` instead of `long`: `Currency`, its events, `CurrencyModule`, `Price`,
+  `CurrencyAmount`, `Wallet` and `ICurrencyFormatter`. The balance is saved as `SaveVar<int>`.
+- `AbbreviatedFormatter` only goes up to `B`, the range of an `int`.
+- Stat Tracker sample: no `divisor`, amounts go into the stats as they are.
+
+### Removed
+
+- `ProtectedLong`. The balance was also kept unmasked in the `SaveVar` and passed unmasked in events,
+  so masking the cached copy did not protect it.
+
 ## [0.1.0] - 2026-09-25
 
 ### Added
