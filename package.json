@@ -1,0 +1,29 @@
+{
+  "name": "com.fefek5.currency",
+  "version": "0.1.0",
+  "displayName": "Currency",
+  "description": "ScriptableObject-based currencies for Unity: earn, spend, save and extend with modules.",
+  "unity": "6000.0",
+  "changelogUrl": "https://github.com/jfderegowski/currency-system-for-unity/blob/main/CHANGELOG.md",
+  "dependencies": {
+    "com.fefek5.save-data": "https://github.com/jfderegowski/save-data.git",
+    "com.fefek5.toys-for-unity": "https://github.com/jfderegowski/toys-for-unity.git",
+    "com.fefek5.resources-scriptable-object-singleton-system": "https://github.com/jfderegowski/resources-scriptable-object-singleton-system.git"
+  },
+  "samples": [
+    {
+      "displayName": "Stat Tracker",
+      "description": "Module that counts earned/spent currency into com.fefek5.stats IntStats.",
+      "path": "Samples~/StatTracker"
+    },
+    {
+      "displayName": "Basic Shop",
+      "description": "Button that buys something for a Price.",
+      "path": "Samples~/BasicShop"
+    }
+  ],
+  "author": {
+    "name": "fefek5",
+    "url": "https://github.com/jfderegowski"
+  }
+}

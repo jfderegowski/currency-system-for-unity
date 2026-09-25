@@ -1,0 +1,26 @@
+{
+    "name": "fefek5.Currency.Tests",
+    "rootNamespace": "fefek5.Currency.Tests",
+    "references": [
+        "fefek5.Currency.Runtime",
+        "fefek5.Variables.SaveDataVariable.Runtime",
+        "fefek5.SerializableGuidVariable.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

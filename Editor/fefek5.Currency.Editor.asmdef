@@ -1,0 +1,21 @@
+{
+    "name": "fefek5.Currency.Editor",
+    "rootNamespace": "fefek5.Currency.Editor",
+    "references": [
+        "fefek5.Currency.Runtime",
+        "fefek5.Variables.SaveDataVariable.Runtime",
+        "fefek5.SerializableGuidVariable.Runtime",
+        "fefek5.ResourcesScriptableObjectSingletonSystem.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

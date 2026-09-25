@@ -1,0 +1,20 @@
+{
+    "name": "fefek5.Currency.Runtime",
+    "rootNamespace": "fefek5.Currency.Runtime",
+    "references": [
+        "fefek5.Variables.SaveDataVariable.Runtime",
+        "fefek5.SerializableGuidVariable.Runtime",
+        "com.fefek5.toys.Runtime",
+        "fefek5.ResourcesScriptableObjectSingletonSystem.Runtime",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

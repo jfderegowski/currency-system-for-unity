@@ -1,0 +1,17 @@
+{
+    "name": "fefek5.Currency.Samples.StatTracker",
+    "rootNamespace": "fefek5.Currency.Samples",
+    "references": [
+        "fefek5.Currency.Runtime",
+        "fefek5.Stats.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
